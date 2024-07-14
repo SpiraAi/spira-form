@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../shadcn/components/ui/select";
+} from "@/components/ui/select";
 
 import React from "react";
 

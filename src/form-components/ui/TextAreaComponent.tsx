@@ -1,7 +1,6 @@
 import React from 'react'
-import { Input } from '../../shadcn/components/ui/input';
-import { cn } from '../../shadcn/lib/utils';
-import { Textarea } from '../../shadcn/components/ui/textarea';
+import { cn } from '@/lib/utils';
+
 
 type TextAreaComponentProps = {
     label: string;
@@ -26,7 +25,7 @@ const TextAreaComponent: React.FC<TextAreaComponentProps> = ({
   return (
     <div className={cn(classname, "")}>
         <label htmlFor={name}>{label}</label>
-        <Textarea
+        <textarea
             name={name}
             id={name}
             placeholder={placeholder}

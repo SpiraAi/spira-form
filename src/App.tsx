@@ -1,6 +1,6 @@
 import React from "react";
 import { formSchema } from "./schema/formSchema";
-import { FormBuilder } from "./components/FormBuilder";
+import { FormBuilder } from "./form-components/FormBuilder";
 
 const App: React.FC = () => {
   return (

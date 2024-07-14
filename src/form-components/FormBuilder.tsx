@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormSchema } from '../types/FormSchema';
 import { FormFieldComponent } from './FormFields';
-import { Button } from '../shadcn/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 interface FormBuilderProps {
   schema: FormSchema;
