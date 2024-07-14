@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
 
 type SelectComponentProps = {
   label: string;
@@ -31,7 +32,7 @@ const SelectComponent: React.FC<SelectComponentProps> = ({
 }) => {
   return (
     <div className={cn(classname, "")}>
-      <label htmlFor={name}>{label}</label>
+      <Label htmlFor={name}>{label}</Label>
       <Select name={name} value={value} onValueChange={onChange}>
         <SelectTrigger id={name} className={cn(triggerClassName, "")}>
           <SelectValue placeholder={placeholder} />

@@ -103,6 +103,15 @@ export const formSchema = {
       required: true,
     },
     {
+      type: "range",
+      label: "Salary Range",
+      name: "salary",
+      min: 0,
+      max: 100000,
+      step: 5000,
+      required: true,
+    },
+    {
       type: "file",
       label: "Resume",
       name: "resume",

@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -25,7 +26,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
 }) => {
   return (
     <div className={cn(classname, "")}>
-      <label htmlFor={name}>{label}</label>
+      <Label htmlFor={name}>{label}</Label>
       <Input
         type={type}
         name={name}

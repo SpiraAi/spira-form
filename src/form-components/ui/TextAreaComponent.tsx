@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 type TextAreaComponentProps = {
   label: string;
@@ -23,7 +24,7 @@ const TextAreaComponent: React.FC<TextAreaComponentProps> = ({
 }) => {
   return (
     <div className={cn(classname, "")}>
-      <label htmlFor={name}>{label}</label>
+      <Label htmlFor={name}>{label}</Label>
       <Textarea
         name={name}
         id={name}

@@ -4,6 +4,8 @@ import InputComponent from "./ui/InputComponent";
 import TextAreaComponent from "./ui/TextAreaComponent";
 import SelectComponent from "./ui/SelectComponent";
 import CheckboxField from "./ui/CheckboxComponent";
+import RadioField from "./ui/RadioField";
+import SliderField from "./ui/SliderField";
 
 interface FormFieldProps {
   field: FormField;
@@ -71,28 +73,6 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({
     case "checkbox":
       return (
         <div>
-          {/* <label>{field.label}</label>
-          {field.options?.map((option) => (
-            <div key={option.value}>
-              <input
-                type="checkbox"
-                name={field.name}
-                value={option.value}
-                checked={value.split(",").includes(option.value)}
-                onChange={() => {
-                  const newValue = value.split(",").includes(option.value)
-                    ? value
-                        .split(",")
-                        .filter((v) => v !== option.value)
-                        .join(",")
-                    : [...value.split(","), option.value].join(",");
-                  onChange(newValue);
-                }}
-              />
-              <label>{option.label}</label>
-            </div>
-          ))} */}
-
           <CheckboxField
             field={{
               name: field.name,
@@ -107,33 +87,44 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({
     case "radio":
       return (
         <div>
-          <label>{field.label}</label>
-          {field.options?.map((option) => (
-            <div key={option.value}>
-              <input
-                type="radio"
-                name={field.name}
-                value={option.value}
-                checked={value === option.value}
-                onChange={handleChange}
-              />
-              <label>{option.label}</label>
-            </div>
-          ))}
+          <RadioField
+            field={{
+              name: field.name,
+              value: value,
+              onChange: (value) => onChange(value),
+            }}
+            label={field.label}
+            options={field.options || []}
+          />
         </div>
       );
     case "file":
       return (
         <div>
-          <label>{field.label}</label>
-          <input
+          <InputComponent
+            label={field.label}
             type="file"
             name={field.name}
-            accept={field.accept}
+            placeholder={field.placeholder}
             required={field.required}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(event.target.files?.[0]?.name || "")
-            }
+            value={value}
+            onChange={onChange}
+          />
+        </div>
+      );
+    case "range":
+      return (
+        <div>
+          <SliderField
+            field={{
+              name: field.name,
+              value: parseFloat(value) || 0,
+              onChange: (newValue) => onChange(newValue.toString()),
+            }}
+            label={field.label}
+            min={field.min}
+            max={field.max}
+            step={field.step}
           />
         </div>
       );
