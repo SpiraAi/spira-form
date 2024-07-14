@@ -5,13 +5,13 @@ import TextAreaComponent from './ui/TextAreaComponent';
 
 interface FormFieldProps {
   field: FormField;
-  value: string;
-  onChange: (name: string, value: string) => void;
+  value: string;  
+  onChange: (value: string) => void;
 }
 
 export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    onChange(field.name, event.target.value);
+    onChange(event.target.value);
   };
 
   switch (field.type) {
@@ -73,7 +73,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
                   const newValue = value.split(',').includes(option.value)
                     ? value.split(',').filter((v) => v !== option.value).join(',')
                     : [...value.split(','), option.value].join(',');
-                  onChange(field.name, newValue);
+                  onChange(newValue);
                 }}
               />
               <label>{option.label}</label>
@@ -109,7 +109,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
             accept={field.accept}
             required={field.required}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(field.name, event.target.files?.[0]?.name || '')
+              onChange(event.target.files?.[0]?.name || '')
             }
           />
         </div>

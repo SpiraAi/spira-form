@@ -10,7 +10,7 @@ type InputComponentProps = {
     placeholder?: string;
     required?: boolean;
     value: string;
-    onChange: (name: string, value: string) => void;
+    onChange: (value: string) => void;
     classname?: string;
 }
 
@@ -34,7 +34,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
             placeholder={placeholder}
             required={required}
             value={value}
-            onChange={(e) => onChange(name, e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
         />
     </div>
   )
