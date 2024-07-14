@@ -85,6 +85,17 @@ export const formSchema = {
       required: true,
     },
     {
+      type: "checkbox",
+      label: "Terms and Conditions",
+      name: "terms",
+      options: [
+        {
+          label: "I agree to the terms and conditions",
+          value: "agree",
+        },
+      ],
+    },
+    {
       type: "radio",
       label: "Preferred Work Location",
       name: "workLocation",
