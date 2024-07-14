@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormSchema } from '../types/FormSchema';
 import { FormFieldComponent } from './FormFields';
+import { Button } from '../shadcn/components/ui/button';
 
 interface FormBuilderProps {
   schema: FormSchema;
@@ -36,6 +37,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
         />
       ))}
       <button type="submit">Submit Application</button>
+      <Button type="submit">Submit Application</Button>
     </form>
   );
 };

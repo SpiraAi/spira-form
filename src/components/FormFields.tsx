@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormField } from '../types/FormSchema';
+import InputComponent from './ui/InputComponent';
+import TextAreaComponent from './ui/TextAreaComponent';
 
 interface FormFieldProps {
   field: FormField;
@@ -18,27 +20,28 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
     case 'tel':
       return (
         <div>
-          <label>{field.label}</label>
-          <input
+          <InputComponent
+            label={field.label}
             type={field.type}
             name={field.name}
             placeholder={field.placeholder}
             required={field.required}
             value={value}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </div>
       );
     case 'textarea':
       return (
         <div>
-          <label>{field.label}</label>
-          <textarea
+          <TextAreaComponent
+            label={field.label}
+            type={field.type}
             name={field.name}
             placeholder={field.placeholder}
             required={field.required}
             value={value}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </div>
       );
