@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -5,20 +6,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
-import React from "react";
+type SelectComponentProps = {
+  label: string;
+  name: string;
+  options: { value: string; label: string }[];
+  value: string;
+  placeholder?: string;
+  onChange: (value: string) => void;
+  classname?: string;
+  triggerClassName?: string;
+};
 
-const SelectComponent = () => {
+const SelectComponent: React.FC<SelectComponentProps> = ({
+  label,
+  name,
+  options,
+  value,
+  placeholder,
+  onChange,
+  classname,
+  triggerClassName,
+}) => {
   return (
-    <div>
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Theme" />
+    <div className={cn(classname, "")}>
+      <label htmlFor={name}>{label}</label>
+      <Select name={name} value={value} onValueChange={onChange}>
+        <SelectTrigger id={name} className={cn(triggerClassName, "")}>
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

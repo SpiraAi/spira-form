@@ -1,23 +1,33 @@
-import React from 'react';
-import { FormField } from '../types/FormSchema';
-import InputComponent from './ui/InputComponent';
-import TextAreaComponent from './ui/TextAreaComponent';
+import React from "react";
+import { FormField } from "../types/FormSchema";
+import InputComponent from "./ui/InputComponent";
+import TextAreaComponent from "./ui/TextAreaComponent";
+import SelectComponent from "./ui/SelectComponent";
+import CheckboxField from "./ui/CheckboxComponent";
 
 interface FormFieldProps {
   field: FormField;
-  value: string;  
+  value: string;
   onChange: (value: string) => void;
 }
 
-export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onChange }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+export const FormFieldComponent: React.FC<FormFieldProps> = ({
+  field,
+  value,
+  onChange,
+}) => {
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     onChange(event.target.value);
   };
 
   switch (field.type) {
-    case 'text':
-    case 'email':
-    case 'tel':
+    case "text":
+    case "email":
+    case "tel":
       return (
         <div>
           <InputComponent
@@ -31,7 +41,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
           />
         </div>
       );
-    case 'textarea':
+    case "textarea":
       return (
         <div>
           <TextAreaComponent
@@ -45,43 +55,56 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
           />
         </div>
       );
-    case 'select':
+    case "select":
       return (
         <div>
-          <label>{field.label}</label>
-          <select name={field.name} required={field.required} value={value} onChange={handleChange}>
-            {field.options?.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <SelectComponent
+            label={field.label}
+            name={field.name}
+            options={field.options || []}
+            value={value}
+            placeholder={field.placeholder}
+            onChange={onChange}
+          />
         </div>
       );
-    case 'checkbox':
+    case "checkbox":
       return (
         <div>
-          <label>{field.label}</label>
+          {/* <label>{field.label}</label>
           {field.options?.map((option) => (
             <div key={option.value}>
               <input
                 type="checkbox"
                 name={field.name}
                 value={option.value}
-                checked={value.split(',').includes(option.value)}
+                checked={value.split(",").includes(option.value)}
                 onChange={() => {
-                  const newValue = value.split(',').includes(option.value)
-                    ? value.split(',').filter((v) => v !== option.value).join(',')
-                    : [...value.split(','), option.value].join(',');
+                  const newValue = value.split(",").includes(option.value)
+                    ? value
+                        .split(",")
+                        .filter((v) => v !== option.value)
+                        .join(",")
+                    : [...value.split(","), option.value].join(",");
                   onChange(newValue);
                 }}
               />
               <label>{option.label}</label>
             </div>
-          ))}
+          ))} */}
+
+          <CheckboxField
+            field={{
+              name: field.name,
+              value: value,
+              onChange: (value) => onChange(value),
+            }}
+            label={field.label}
+            options={field.options || []}
+          />
         </div>
       );
-    case 'radio':
+    case "radio":
       return (
         <div>
           <label>{field.label}</label>
@@ -99,7 +122,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
           ))}
         </div>
       );
-    case 'file':
+    case "file":
       return (
         <div>
           <label>{field.label}</label>
@@ -109,7 +132,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({ field, value, onC
             accept={field.accept}
             required={field.required}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onChange(event.target.files?.[0]?.name || '')
+              onChange(event.target.files?.[0]?.name || "")
             }
           />
         </div>

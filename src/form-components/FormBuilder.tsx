@@ -1,17 +1,16 @@
-import React from 'react';
-import { useForm, Controller } from "react-hook-form";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z, ZodTypeAny } from "zod";
-import { FormSchema } from '../types/FormSchema';
-import { FormFieldComponent } from './FormFields';
-import { Button } from '@/components/ui/button';
+import { FormSchema } from "../types/FormSchema";
+import { FormFieldComponent } from "./FormFields";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 
@@ -24,7 +23,11 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
   const zodSchema: { [key: string]: ZodTypeAny } = {};
   schema.fields.forEach((field) => {
     if (field.required) {
-      zodSchema[field.name] = z.string().nonempty(`${field.label} is required`);
+      zodSchema[field.name] = z.string({
+        required_error: `${field.label} is required`,
+      }).min(1, {
+        message: `${field.label} is required`,
+      });
     } else {
       zodSchema[field.name] = z.string().optional();
     }
@@ -35,20 +38,20 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: schema.fields.reduce((acc, field) => {
-      acc[field.name] = '';
+      acc[field.name] = "";
       return acc;
     }, {} as { [key: string]: string }),
   });
 
   const handleSubmit = (data: any) => {
-    console.log('Form submitted:', data);
+    console.log("Form submitted:", JSON.stringify(data, null, 2));
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        {schema.title && <h1>{schema.title}</h1>}
-        {schema.description && <FormDescription>{schema.description}</FormDescription>}
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+        <h1>{schema.title}</h1>
+        <FormDescription>{schema.description}</FormDescription>
         {schema.fields.map((field, index) => (
           <FormField
             key={index}
@@ -63,7 +66,9 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
                     onChange={controllerField.onChange}
                   />
                 </FormControl>
-                <FormMessage>{form.formState.errors[field.name]?.message as string}</FormMessage>
+                <FormMessage>
+                  {form.formState.errors[field.name]?.message as string}
+                </FormMessage>
               </FormItem>
             )}
           />
