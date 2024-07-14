@@ -56,7 +56,6 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
             name={field.name}
             render={({ field: controllerField }) => (
               <FormItem>
-                <FormLabel>{field.label}</FormLabel>
                 <FormControl>
                   <FormFieldComponent
                     field={field}
