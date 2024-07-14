@@ -18,14 +18,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({
   value,
   onChange,
 }) => {
-  const handleChange = (
-    event: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    onChange(event.target.value);
-  };
-
+  
   switch (field.type) {
     case "text":
     case "email":
