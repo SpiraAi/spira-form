@@ -13,21 +13,27 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
 interface FormBuilderProps {
   schema: FormSchema;
+  classname?: string;
 }
 
-export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
-  // Create a Zod schema dynamically based on the provided form schema
+export const FormBuilder: React.FC<FormBuilderProps> = ({
+  schema,
+  classname,
+}) => {
   const zodSchema: { [key: string]: ZodTypeAny } = {};
   schema.fields.forEach((field) => {
     if (field.required) {
-      zodSchema[field.name] = z.string({
-        required_error: `${field.label} is required`,
-      }).min(1, {
-        message: `${field.label} is required`,
-      });
+      zodSchema[field.name] = z
+        .string({
+          required_error: `${field.label} is required`,
+        })
+        .min(1, {
+          message: `${field.label} is required`,
+        });
     } else {
       zodSchema[field.name] = z.string().optional();
     }
@@ -49,7 +55,10 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ schema }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className={cn(classname, "")}
+      >
         <h1>{schema.title}</h1>
         <FormDescription>{schema.description}</FormDescription>
         {schema.fields.map((field, index) => (

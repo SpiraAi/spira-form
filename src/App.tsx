@@ -5,7 +5,7 @@ import { FormBuilder } from "./form-components/FormBuilder";
 const App: React.FC = () => {
   return (
     <>
-      <FormBuilder schema={formSchema} />
+      <FormBuilder schema={formSchema} classname="w-[70%]" />
     </>
   );
 };
