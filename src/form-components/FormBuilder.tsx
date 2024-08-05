@@ -1,7 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodTypeAny } from "zod";
 import { FormSchema } from "../types/FormSchema";
 import { FormFieldComponent } from "./FormFields";
 import { Button } from "@/components/ui/button";
@@ -28,38 +26,23 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
 }) => {
   const formData = useFormStore((state) => state.formData);
   const setFormData = useFormStore((state) => state.setFormData);
-
-  const zodSchema: { [key: string]: ZodTypeAny } = {};
-  schema.fields.forEach((field) => {
-    if (field.required) {
-      zodSchema[field.name] = z
-        .string({
-          required_error: `${field.label} is required`,
-        })
-        .min(1, {
-          message: `${field.label} is required`,
-        });
-    } else {
-      zodSchema[field.name] = z.string().optional();
-    }
-  });
-
-  const formSchema = z.object(zodSchema);
+  const formErrors = useFormStore((state) => state.formErrors);
 
   const form = useForm<TFormValues>({
-    resolver: zodResolver(formSchema),
     defaultValues: { ...formData },
   });
 
-  const handleSubmit = (data: any) => {
-    console.log("Form submitted:", JSON.stringify(data, null, 2));
+  const onSubmit = (data: TFormValues) => {
     setFormData(data);
+    if (Object.keys(formErrors).length === 0) {
+      console.log("Form submitted:", JSON.stringify(data, null, 2));
+    }
   };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className={cn(classname, "")}
       >
         <h1>{schema.title}</h1>
@@ -69,7 +52,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
             key={index}
             control={form.control}
             name={field.name}
-            render={({ field: controllerField, fieldState }) => (
+            render={({ field: controllerField }) => (
               <FormItem>
                 <FormControl>
                   <FormFieldComponent
@@ -77,12 +60,11 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
                     value={controllerField.value}
                     onChange={(value: string) => {
                       controllerField.onChange(value);
-                      console.log("error", fieldState);
-                      setFormData({ ...form.getValues(), [field.name]: value });
+                      setFormData({ ...formData, [field.name]: value });
                     }}
                   />
                 </FormControl>
-                <FormMessage>{fieldState.error?.message}</FormMessage>
+                <FormMessage> {formErrors[field.name]}</FormMessage>
               </FormItem>
             )}
           />
