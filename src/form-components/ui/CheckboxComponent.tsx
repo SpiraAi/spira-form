@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
@@ -12,18 +12,24 @@ interface CheckboxFieldProps {
   options: { value: string; label: string }[];
 }
 
-const CheckboxField: React.FC<CheckboxFieldProps> = ({ field, label, options }) => {
+const CheckboxField: React.FC<CheckboxFieldProps> = ({
+  field,
+  label,
+  options,
+}) => {
   const handleChange = (optionValue: string, checked: boolean) => {
-    const currentValues = field.value ? field.value.split(',').filter(Boolean) : [];
+    const currentValues = field.value
+      ? field.value?.split(",").filter(Boolean)
+      : [];
     let newValues: string[];
-    
+
     if (checked) {
       newValues = [...currentValues, optionValue];
     } else {
-      newValues = currentValues.filter(value => value !== optionValue);
+      newValues = currentValues.filter((value) => value !== optionValue);
     }
-    
-    field.onChange(newValues.join(','));
+
+    field.onChange(newValues?.join(","));
   };
 
   return (
@@ -34,10 +40,14 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({ field, label, options }) 
           <div key={option.value} className="flex items-center space-x-2">
             <Checkbox
               id={`${field.name}-${option.value}`}
-              checked={field.value.split(',').includes(option.value)}
-              onCheckedChange={(checked) => handleChange(option.value, checked as boolean)}
+              checked={field.value?.split(",").includes(option.value)}
+              onCheckedChange={(checked) =>
+                handleChange(option.value, checked as boolean)
+              }
             />
-            <Label htmlFor={`${field.name}-${option.value}`}>{option.label}</Label>
+            <Label htmlFor={`${field.name}-${option.value}`}>
+              {option.label}
+            </Label>
           </div>
         ))}
       </div>

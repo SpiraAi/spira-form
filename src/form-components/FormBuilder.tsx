@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { TFormValues } from "@/types/form";
+import useFormStore from "@/store/formStore";
 
 interface FormBuilderProps {
   schema: FormSchema;
@@ -24,6 +26,9 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
   schema,
   classname,
 }) => {
+  const formData = useFormStore((state) => state.formData);
+  const setFormData = useFormStore((state) => state.setFormData);
+
   const zodSchema: { [key: string]: ZodTypeAny } = {};
   schema.fields.forEach((field) => {
     if (field.required) {
@@ -41,16 +46,14 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
 
   const formSchema = z.object(zodSchema);
 
-  const form = useForm({
+  const form = useForm<TFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: schema.fields.reduce((acc, field) => {
-      acc[field.name] = "";
-      return acc;
-    }, {} as { [key: string]: string }),
+    defaultValues: { ...formData },
   });
 
   const handleSubmit = (data: any) => {
     console.log("Form submitted:", JSON.stringify(data, null, 2));
+    setFormData(data);
   };
 
   return (
@@ -66,23 +69,27 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({
             key={index}
             control={form.control}
             name={field.name}
-            render={({ field: controllerField }) => (
+            render={({ field: controllerField, fieldState }) => (
               <FormItem>
                 <FormControl>
                   <FormFieldComponent
                     field={field}
                     value={controllerField.value}
-                    onChange={controllerField.onChange}
+                    onChange={(value: string) => {
+                      controllerField.onChange(value);
+                      console.log("error", fieldState);
+                      setFormData({ ...form.getValues(), [field.name]: value });
+                    }}
                   />
                 </FormControl>
-                <FormMessage>
-                  {form.formState.errors[field.name]?.message as string}
-                </FormMessage>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
         ))}
-        <Button type="submit">Submit</Button>
+        <Button variant="outline" type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   );
