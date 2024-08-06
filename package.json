@@ -1,14 +1,20 @@
 {
-  "name": "spira-form",
+  "name": "@spiraai/spira-form",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Spira Ai",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "rm -rf dist && tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish:patch": "bun run build && npm version patch && bun publish"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": "https://github.com/SpiraAi/spira-form",
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -25,7 +31,6 @@
     "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
