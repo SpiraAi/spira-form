@@ -1,7 +1,7 @@
 {
   "name": "@spiraai/spira-form",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "author": "Spira Ai",
   "scripts": {
