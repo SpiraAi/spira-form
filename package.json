@@ -10,7 +10,7 @@
   "author": "Spira Ai",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc -b && vite build",
+    "build": "rm -rf dist && tsc -b && vite build && rm -rf .rollup.cache",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "publish:patch": "bun run build && npm version patch && npm publish"
@@ -27,6 +27,7 @@
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slider": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@rollup/plugin-typescript": "^11.1.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.408.0",
