@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./global.css";
 import { FormBuilder } from "./form-components/FormBuilder.js";
 import { formSchema } from "./schema/formSchema.js";
 
