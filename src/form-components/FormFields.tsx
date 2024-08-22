@@ -18,7 +18,6 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({
   value,
   onChange,
 }) => {
-  
   switch (field.type) {
     case "text":
     case "email":
@@ -100,7 +99,7 @@ export const FormFieldComponent: React.FC<FormFieldProps> = ({
             name={field.name}
             placeholder={field.placeholder}
             required={field.required}
-            value={value}
+            value={""}
             onChange={onChange}
           />
         </div>
